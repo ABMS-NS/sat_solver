@@ -79,11 +79,25 @@ void ler_arquivo_cnf(const char* nome_arquivo, CNF* problema){
     fclose(arquivo);
 }
 
+int verifica_clausula(CNF *problema, Clausula *clausula, int *atrib){
 
+    //verifica se a clausula é verdadeira ou falsa
+    for(int i = 0; i < clausula->tamanho; i++){
+        int literal = clausula->literais[i]; //atribui o literal da clausula a uma variável
+        int var = abs(literal) - 1; //pega o valor absoluto do literal (se for negativo, transforma em positivo)
+        
+
+        if(literal > 0 && atrib[var] == 1) return SAT; //se o literal for positivo e o valor for verdadeiro, retorna SAT
+        if(literal < 0 && atrib[var] == -1) return SAT; //se o literal for negativo e o valor for falso, retorna SAT
+    }   
+    return UNSAT; //se não retornar nada, retorna UNSAT (falso)
+}
 
 int main(){
     CNF problema; //cria a estrutura do problema
     ler_arquivo_cnf("problema.cnf", &problema); //lê o arquivo cnf e preenche a estrutura do problema
 
-    return 0; //retorna 0 (sucesso)
+    
+
+    return 0;
 }
